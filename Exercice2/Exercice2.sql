@@ -93,15 +93,15 @@ INSERT INTO `customers` (`cust_lastname`,`cust_firstname`,`cust_birthday`,`cust_
 INSERT INTO `customers` (`cust_lastname`,`cust_firstname`,`cust_birthday`,`cust_phone`,`cust_mail`,`style_id`) VALUES ("Goodwin","Britanney","1971-03-07","01 04 48 23 14","euismod.et@nondui.org",3),("Cummings","Kirk","1991-06-29","05 07 57 62 80","ipsum.dolor.sit@nec.edu",3),("Griffith","Honorato","1978-11-25","08 70 70 06 34","litora.torquent@id.edu",3),("Kramer","Holmes","1993-07-10","05 90 84 94 42","erat.neque.non@lacusAliquamrutrum.co.uk",1),("Snyder","Megan","2001-09-24","07 81 02 98 47","tempor@nunc.ca",2),("Mckee","Zachery","1951-02-24","08 80 17 18 14","nec.ligula@tellusjustosit.org",4),("Finley","Ashely","1953-03-16","01 95 68 36 80","Vivamus.euismod@variuseteuismod.com",3),("Snow","Mohammad","2005-06-01","01 54 85 71 64","Etiam.laoreet.libero@idanteNunc.com",1),("Dodson","Gage","1988-09-05","09 55 56 75 31","interdum.Sed@nullaCras.net",1),("Cotton","Keiko","1971-07-25","09 46 99 96 50","arcu.Vivamus.sit@ullamcorpervelitin.net",4);
 
 /* Affichage des lignes du registre (titre, nom et prénom du client, date d'emprunt et de retour du livre).
-Tables : books, customers, register.
-*/
+Tables : books, customers, register.*/
+
 SELECT b.`boo_title`, c.`cust_firstname`, c.`cust_lastname`, r.`reg_startdate`, r.`reg_returndate` FROM `register` r
 JOIN `customers` c USING (`cust_id`)
 JOIN `books` b USING (`boo_id`);
 
 /* Affichage de la liste de tous les livres (titre, genre, nom et prénom de l'auteur, disponibilité). 
 Cardinalité 1,1, 1,n => INNER JOIN 
-Cardinalité 0,n => LEFT JOIN */
+Cardinalité 0,n => LEFT JOIN sauf si table de relations => INNER JOIN. */
 
 SELECT  b.`boo_title`, s.`style_style`, a.`auth_lastname`, a.`auth_firstname`, r.`reg_startdate` FROM `books` b
 JOIN `styles` s ON s.`style_id` = b.`style_id`
