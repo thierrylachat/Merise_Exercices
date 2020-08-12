@@ -4,18 +4,18 @@
 
 
 #------------------------------------------------------------
-# Table: subjects
+# Table: `subjects`
 #------------------------------------------------------------
 
 CREATE TABLE `subjects`(
         `s_id`      Int  Auto_increment  NOT NULL ,
         `s_subject` Varchar (50) NOT NULL
-	,PRIMARY KEY (`s_id`)
+	,CONSTRAINT PK_subjects PRIMARY KEY (`s_id`)
 )ENGINE=InnoDB;
 
 
 #------------------------------------------------------------
-# Table: teachers
+# Table: `teachers`
 #------------------------------------------------------------
 
 CREATE TABLE `teachers`(
@@ -24,28 +24,28 @@ CREATE TABLE `teachers`(
         `t_lastname`  Varchar (50) NOT NULL ,
         `t_mail`      Varchar (255) NOT NULL ,
         `s_id`        Int NOT NULL
-	,PRIMARY KEY (`t_id`)
+	,CONSTRAINT PK_teachers PRIMARY KEY (`t_id`)
 
-	,CONSTRAINT FK_teachers_s_id FOREIGN KEY (`s_id`) REFERENCES subjects(`s_id`)
+	,CONSTRAINT FK_teachers_subjects FOREIGN KEY (`s_id`) REFERENCES subjects(`s_id`)
 )ENGINE=InnoDB;
 
 
 #------------------------------------------------------------
-# Table: grades
+# Table: `grades`
 #------------------------------------------------------------
 
 CREATE TABLE `grades`(
-        `g_id`   Int  Auto_increment  NOT NULL ,
+        `g_id`  Int  Auto_increment  NOT NULL ,
         `g_name` Varchar (50) NOT NULL ,
         `t_id`   Int NOT NULL
-	,PRIMARY KEY (`g_id`)
+	,CONSTRAINT PK_grades PRIMARY KEY (`g_id`)
 
-	,CONSTRAINT FK_grades_t_id FOREIGN KEY (`t_id`) REFERENCES teachers(`t_id`)
+	,CONSTRAINT FK_grades_teachers FOREIGN KEY (`t_id`) REFERENCES teachers(`t_id`)
 )ENGINE=InnoDB;
 
 
 #------------------------------------------------------------
-# Table: pupils
+# Table: `pupils`
 #------------------------------------------------------------
 
 CREATE TABLE `pupils`(
@@ -53,23 +53,38 @@ CREATE TABLE `pupils`(
         `p_firstname` Varchar (50) NOT NULL ,
         `p_lastname`  Varchar (50) NOT NULL ,
         `g_id`        Int NOT NULL
-	,PRIMARY KEY (`p_id`)
+	,CONSTRAINT PK_pupils PRIMARY KEY (`p_id`)
 
-	,CONSTRAINT FK_pupils_g_id FOREIGN KEY (`g_id`) REFERENCES grades(`g_id`)
+	,CONSTRAINT FK_pupils_grades FOREIGN KEY (`g_id`) REFERENCES grades(`g_id`)
 )ENGINE=InnoDB;
 
 
 #------------------------------------------------------------
-# Table: rates
+# Table: `rates`
 #------------------------------------------------------------
 
-CREATE TABLE rates(
+CREATE TABLE `rates`(
+        `r_id`        Int  Auto_increment  NOT NULL ,
         `s_id`    Int NOT NULL ,
         `p_id`    Int NOT NULL ,
         `n_value` Float NOT NULL
-	,PRIMARY KEY (`s_id`,`p_id`)
+	,CONSTRAINT PK_rates PRIMARY KEY (`r_id`)
 
-	,CONSTRAINT FK_rates_s_id FOREIGN KEY (`s_id`) REFERENCES `subjects`(`s_id`)
-	,CONSTRAINT FK_rates_p_id FOREIGN KEY (`p_id`) REFERENCES `pupils`(`p_id`)
+	,CONSTRAINT FK_rates_subjects FOREIGN KEY (`s_id`) REFERENCES subjects(`s_id`)
+	,CONSTRAINT FK_rates_pupils FOREIGN KEY (`p_id`) REFERENCES pupils(`p_id`)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: `teaches`
+#------------------------------------------------------------
+
+CREATE TABLE `teaches`(
+        `p_id`    Int NOT NULL ,
+        `t_id`    Int NOT NULL
+	,CONSTRAINT PK_teaches PRIMARY KEY (`p_id`, `t_id`)
+
+	,CONSTRAINT FK_teaches_teachers FOREIGN KEY (`t_id`) REFERENCES teachers(`t_id`)
+	,CONSTRAINT FK_teaches_pupils FOREIGN KEY (`p_id`) REFERENCES pupils(`p_id`)
 )ENGINE=InnoDB;
 
